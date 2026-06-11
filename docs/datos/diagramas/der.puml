@@ -1,0 +1,223 @@
+@startuml der
+' Diagrama Entidad-Relacion -- Sistema de Inventario + POS (Peterby's)
+' Notacion: pie de cuervo (crow's foot / Information Engineering).
+' Render: java -jar plantuml.jar -tpng der.puml  (requiere Graphviz dot)
+
+skinparam linetype ortho
+skinparam shadowing false
+skinparam roundcorner 6
+skinparam defaultFontName "DejaVu Sans"
+skinparam entity {
+  BackgroundColor #FBFCFE
+  BorderColor #34508A
+  ArrowColor #34508A
+}
+hide circle
+hide empty members
+left to right direction
+
+' ============== A. CATALOGOS BASE ==============
+entity "colores" as colores {
+  *id <<PK>>
+  --
+  nombre <<U>>
+  codigo_hex
+}
+entity "marcas" as marcas {
+  *id <<PK>>
+  --
+  nombre <<U>>
+  activo
+}
+entity "tallas" as tallas {
+  *id <<PK>>
+  --
+  nombre <<U>>
+  orden_visual
+}
+entity "temporadas" as temporadas {
+  *id <<PK>>
+  --
+  nombre
+  anio
+}
+entity "categorias" as categorias {
+  *id <<PK>>
+  --
+  nombre
+  categoria_padre_id <<FK>>
+}
+entity "proveedores" as proveedores {
+  *id <<PK>>
+  --
+  nombre_empresa
+  correo
+}
+entity "clientes" as clientes {
+  *id <<PK>>
+  --
+  nombre
+  correo
+}
+entity "usuarios" as usuarios {
+  *id <<PK>>
+  --
+  usuario <<U>>
+  rol
+}
+
+' ============== B. PRODUCTOS Y SURTIDO ==============
+entity "productos" as productos {
+  *id <<PK>>
+  --
+  nombre
+  marca_id <<FK>>
+  categoria_id <<FK>>
+  temporada_id <<FK>>
+  precio_venta
+}
+entity "variantes_producto" as variantes {
+  *id <<PK>>
+  --
+  producto_id <<FK>>
+  talla_id <<FK>>
+  color_id <<FK>>
+  codigo_sku <<U>>
+  existencias
+  existencias_minimas
+}
+entity "imagenes_producto" as imagenes {
+  *id <<PK>>
+  --
+  producto_id <<FK>>
+  variante_id <<FK>>
+  principal
+}
+entity "productos_proveedores" as prod_prov {
+  *id <<PK>>
+  --
+  producto_id <<FK>>
+  proveedor_id <<FK>>
+  costo
+}
+entity "outfits" as outfits {
+  *id <<PK>>
+  --
+  nombre
+}
+entity "outfit_productos" as outfit_prod {
+  *id <<PK>>
+  --
+  outfit_id <<FK>>
+  producto_id <<FK>>
+}
+
+' ============== C. OPERACION COMERCIAL ==============
+entity "ventas" as ventas {
+  *id <<PK>>
+  --
+  folio <<U>>
+  cliente_id <<FK>>
+  cajero_id <<FK>>
+  total
+  estado
+}
+entity "detalle_ventas" as detalle {
+  *id <<PK>>
+  --
+  venta_id <<FK>>
+  variante_id <<FK>>
+  cantidad
+  subtotal
+}
+entity "pagos" as pagos {
+  *id <<PK>>
+  --
+  venta_id <<FK>>
+  monto
+  metodo_pago
+}
+entity "movimientos_inventario" as movimientos {
+  *id <<PK>>
+  --
+  variante_id <<FK>>
+  usuario_id <<FK>>
+  tipo
+  cantidad
+}
+entity "devoluciones" as devoluciones {
+  *id <<PK>>
+  --
+  detalle_venta_id <<FK>>
+  usuario_id <<FK>>
+  cantidad
+}
+
+' ============== D. PROMOCIONES ==============
+entity "promociones" as promociones {
+  *id <<PK>>
+  --
+  nombre
+  tipo
+  valor
+}
+entity "promociones_variantes" as promo_var {
+  *id <<PK>>
+  --
+  promocion_id <<FK>>
+  variante_id <<FK>>
+}
+
+' ============== E. INTELIGENCIA DEL SISTEMA ==============
+entity "alertas" as alertas {
+  *id <<PK>>
+  --
+  variante_id <<FK>>
+  tipo
+  resuelta
+}
+entity "bitacora_auditoria" as bitacora {
+  *id <<PK>>
+  --
+  usuario_id <<FK>>
+  tabla_afectada
+  accion
+}
+entity "predicciones_reabastecimiento" as predicciones {
+  *id <<PK>>
+  --
+  variante_id <<FK>>
+  demanda_estimada
+  fecha_reabastecimiento_sugerida
+}
+
+' ============== RELACIONES ==============
+categorias    ||--o{ categorias    : padre
+marcas        ||--o{ productos
+categorias    ||--o{ productos
+temporadas    ||--o{ productos
+productos     ||--o{ variantes
+tallas        ||--o{ variantes
+colores       ||--o{ variantes
+productos     ||--o{ imagenes
+variantes     ||--o{ imagenes
+productos     ||--o{ prod_prov
+proveedores   ||--o{ prod_prov
+outfits       ||--o{ outfit_prod
+productos     ||--o{ outfit_prod
+clientes      ||--o{ ventas
+usuarios      ||--o{ ventas        : cajero
+ventas        ||--|{ detalle
+variantes     ||--o{ detalle
+ventas        ||--o{ pagos
+variantes     ||--o{ movimientos
+usuarios      ||--o{ movimientos
+detalle       ||--o{ devoluciones
+usuarios      ||--o{ devoluciones
+promociones   ||--o{ promo_var
+variantes     ||--o{ promo_var
+variantes     ||--o{ alertas
+usuarios      ||--o{ bitacora
+variantes     ||--o{ predicciones
+
+@enduml
