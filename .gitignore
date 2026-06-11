@@ -1,0 +1,49 @@
+# ---- Material de referencia (no se publica) ----
+referencias/
+
+# ---- Artefactos de compilacion LaTeX ----
+docs/**/_build/
+docs/_build/
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.run.xml
+*.bcf
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# ---- PlantUML / herramientas locales ----
+plantuml*.jar
+
+# ---- CodeGraph (indice local, no se versiona) ----
+.codegraph/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ---- SQLite (bases de datos generadas) ----
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+
+# ---- Sistema operativo / editores ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
