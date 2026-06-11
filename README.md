@@ -28,7 +28,8 @@ inventario-ingsoft/
 │   ├── analisis/
 │   │   ├── casos-de-uso.tex
 │   │   └── diagramas/*.puml            # (+ PNG/SVG)
-│   └── _build/                 # PDFs compilados (no versionado)
+│   ├── pdf/                    # PDFs compilados (versionados)
+│   └── _build/                 # Artefactos de compilacion (no versionado)
 ├── CONVENTIONS.md              # Convenciones especificas del proyecto
 └── referencias/                # Insumos originales (no versionado)
 ```
@@ -48,16 +49,16 @@ make -C docs pdf
 make -C docs
 ```
 
-> Los PDF compilados (diccionario de datos y casos de uso) se publican en la
-> sección **[Releases](https://github.com/eddndev/inventario-ingsoft/releases)**
-> del repositorio; las fuentes `.tex`/`.puml` se versionan aquí.
+> Los PDF compilados se versionan en **[`docs/pdf/`](docs/pdf/)** y también se
+> adjuntan en la sección **[Releases](https://github.com/eddndev/inventario-ingsoft/releases)**.
+> Las fuentes `.tex`/`.puml` son la fuente de verdad.
 
 ## Entregables principales
 
 | Entregable | Fuente | Salida |
 |---|---|---|
 | Esquema de base de datos | `database/schema.sql` | — |
-| Diccionario de datos | `docs/datos/diccionario-de-datos.tex` | `docs/_build/diccionario-de-datos.pdf` |
-| Casos de uso | `docs/analisis/casos-de-uso.tex` | `docs/_build/casos-de-uso.pdf` |
+| Diccionario de datos | `docs/datos/diccionario-de-datos.tex` | [`docs/pdf/diccionario-de-datos.pdf`](docs/pdf/diccionario-de-datos.pdf) |
+| Casos de uso | `docs/analisis/casos-de-uso.tex` | [`docs/pdf/casos-de-uso.pdf`](docs/pdf/casos-de-uso.pdf) |
 | Diagrama DER | `docs/datos/diagramas/der.puml` | `der.png` / `der.svg` |
 | Diagramas de casos de uso | `docs/analisis/diagramas/*.puml` | `*.png` / `*.svg` |

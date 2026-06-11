@@ -4,6 +4,7 @@
 PLANTUML ?= java -jar $(HOME)/.local/lib/plantuml.jar
 LATEXMK  ?= latexmk -xelatex -interaction=nonstopmode -halt-on-error
 BUILD    := _build
+PDFDIR   := pdf
 
 PUML := $(wildcard datos/diagramas/*.puml) $(wildcard analisis/diagramas/cu-*.puml)
 PNG  := $(PUML:.puml=.png)
@@ -20,15 +21,17 @@ diagramas: $(PNG) $(SVG)
 %.svg: %.puml
 	$(PLANTUML) -tsvg $<
 
-## pdf: compila los documentos LaTeX a _build/
+## pdf: compila los LaTeX en _build/ y publica los PDF en pdf/
 pdf: diagramas | $(BUILD)
 	cd datos    && $(LATEXMK) -output-directory=../$(BUILD) diccionario-de-datos.tex
 	cd analisis && $(LATEXMK) -output-directory=../$(BUILD) casos-de-uso.tex
+	mkdir -p $(PDFDIR)
+	cp $(BUILD)/diccionario-de-datos.pdf $(BUILD)/casos-de-uso.pdf $(PDFDIR)/
 
 $(BUILD):
 	mkdir -p $(BUILD)
 
-## clean: elimina PDFs y diagramas generados
+## clean: elimina artefactos de compilacion y diagramas generados (no toca pdf/)
 clean:
 	rm -rf $(BUILD)
 	rm -f datos/diagramas/*.png datos/diagramas/*.svg
