@@ -1,0 +1,45 @@
+@startuml cu-administracion
+' Modulo: Acceso y administracion
+!include _estilo.iuml
+title Casos de uso -- Acceso y administracion
+
+left to right direction
+
+actor "Gerente"  as G
+actor "Vendedor" as V
+
+rectangle "Acceso y administracion" {
+  usecase "UC-01 Iniciar sesion"            as UC01
+  usecase "UC-02 Gestionar usuarios"        as UC02
+  usecase "UC-03 Gestionar catalogos base"  as UC03
+  usecase "UC-04 Gestionar productos\ny variantes" as UC04
+  usecase "UC-05 Gestionar proveedores"     as UC05
+  usecase "UC-06 Gestionar clientes"        as UC06
+
+  usecase "Validar credenciales"            as VAL
+  usecase "Registrar en bitacora"           as AUD
+  usecase "Generar SKU /\ncodigo de barras" as SKU
+}
+
+G -- UC02
+G -- UC03
+G -- UC04
+G -- UC05
+G -- UC06
+G -- UC01
+V -- UC01
+V -- UC06
+
+UC01 ..> VAL : <<include>>
+UC02 ..> AUD : <<include>>
+UC04 ..> SKU : <<include>>
+UC04 ..> AUD : <<include>>
+
+note bottom of UC04
+  Cubre RF-001 y RF-002:
+  registrar, editar y eliminar
+  productos y sus variantes
+  (talla, color, SKU, codigo de barras).
+end note
+
+@enduml

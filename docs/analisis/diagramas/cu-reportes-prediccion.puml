@@ -1,0 +1,47 @@
+@startuml cu-reportes-prediccion
+' Modulo: Reportes, dashboard y analisis predictivo
+!include _estilo.iuml
+title Casos de uso -- Reportes y analisis predictivo
+
+left to right direction
+
+actor "Gerente" as G
+actor "Sistema\n(modulo predictivo)" as S
+
+rectangle "Reportes y analisis predictivo" {
+  usecase "UC-13 Visualizar dashboard\nde KPIs"  as UC13
+  usecase "UC-14 Generar y exportar\nreportes"   as UC14
+  usecase "UC-15 Generar prediccion\nde reabastecimiento" as UC15
+  usecase "UC-16 Atender alertas"                as UC16
+
+  usecase "Calcular KPIs"            as KPI
+  usecase "Exportar (PDF / CSV)"     as EXP
+  usecase "Extraer y limpiar datos"  as ETL
+  usecase "Estimar demanda\n(Random Forest)" as RF
+}
+
+G -- UC13
+G -- UC14
+G -- UC15
+G -- UC16
+S -- UC15
+S -- UC16
+
+UC13 ..> KPI : <<include>>
+UC14 ..> EXP : <<include>>
+UC15 ..> ETL : <<include>>
+UC15 ..> RF  : <<include>>
+
+note bottom of UC13
+  RF-009, RF-012, RF-013,
+  RF-024, RF-025: KPIs, top de
+  productos y graficas de ventas.
+end note
+
+note bottom of UC15
+  RF-018, RF-019, RF-026 a RF-029,
+  RN-010: estima demanda y sugiere
+  cantidades de reabastecimiento.
+end note
+
+@enduml

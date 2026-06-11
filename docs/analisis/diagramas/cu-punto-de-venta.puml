@@ -1,0 +1,45 @@
+@startuml cu-punto-de-venta
+' Modulo: Punto de venta
+!include _estilo.iuml
+title Casos de uso -- Punto de venta
+
+left to right direction
+
+actor "Vendedor" as V
+actor "Gerente"  as G
+
+rectangle "Punto de venta" {
+  usecase "UC-10 Registrar venta"       as UC10
+  usecase "UC-11 Procesar devolucion"   as UC11
+  usecase "UC-12 Gestionar promociones" as UC12
+
+  usecase "Buscar producto"             as BUS
+  usecase "Registrar pago"              as PAG
+  usecase "Aplicar promocion"           as PRO
+  usecase "Generar comprobante"         as COMP
+  usecase "Actualizar existencias"      as STK
+  usecase "Reintegrar stock"            as REI
+}
+
+V -- UC10
+V -- UC11
+G -- UC12
+G -- UC11
+
+UC10 ..> BUS  : <<include>>
+UC10 ..> PAG  : <<include>>
+UC10 ..> COMP : <<include>>
+UC10 ..> STK  : <<include>>
+UC10 ..> PRO  : <<extend>>
+UC11 ..> REI  : <<include>>
+UC11 ..> COMP : <<include>>
+
+note bottom of UC10
+  RF-003 / RF-004 / RF-010
+  RN-001, RN-008, RN-012, RN-014:
+  no se vende sin stock; el stock
+  se actualiza al cerrar la venta;
+  pago en efectivo, tarjeta o mixto.
+end note
+
+@enduml

@@ -48,6 +48,10 @@ make -C docs pdf
 make -C docs
 ```
 
+> Los PDF compilados (diccionario de datos y casos de uso) se publican en la
+> sección **[Releases](https://github.com/eddndev/inventario-ingsoft/releases)**
+> del repositorio; las fuentes `.tex`/`.puml` se versionan aquí.
+
 ## Entregables principales
 
 | Entregable | Fuente | Salida |

@@ -1,0 +1,70 @@
+@startuml cu-general
+' Diagrama general de casos de uso -- Sistema de Inventario + POS (Peterby's)
+!include _estilo.iuml
+title Casos de uso -- Vision general
+
+left to right direction
+
+actor "Gerente"  as G
+actor "Vendedor" as V
+actor "Sistema\n(modulo predictivo)" as S
+
+rectangle "Sistema de Inventario con POS" {
+
+  package "Acceso y administracion" {
+    usecase "UC-01\nIniciar sesion"                 as UC01
+    usecase "UC-02\nGestionar usuarios"             as UC02
+    usecase "UC-03\nGestionar catalogos base"       as UC03
+    usecase "UC-04\nGestionar productos\ny variantes" as UC04
+    usecase "UC-05\nGestionar proveedores"          as UC05
+    usecase "UC-06\nGestionar clientes"             as UC06
+  }
+
+  package "Inventario" {
+    usecase "UC-07\nRegistrar recepcion\nde mercancia" as UC07
+    usecase "UC-08\nAjustar inventario"             as UC08
+    usecase "UC-09\nConsultar inventario"           as UC09
+  }
+
+  package "Punto de venta" {
+    usecase "UC-10\nRegistrar venta"                as UC10
+    usecase "UC-11\nProcesar devolucion"            as UC11
+    usecase "UC-12\nGestionar promociones"          as UC12
+  }
+
+  package "Reportes y analisis" {
+    usecase "UC-13\nVisualizar dashboard\nde KPIs"  as UC13
+    usecase "UC-14\nGenerar y exportar\nreportes"   as UC14
+    usecase "UC-15\nGenerar prediccion\nde reabastecimiento" as UC15
+    usecase "UC-16\nAtender alertas"                as UC16
+  }
+}
+
+' --- Gerente ---
+G -- UC01
+G -- UC02
+G -- UC03
+G -- UC04
+G -- UC05
+G -- UC06
+G -- UC07
+G -- UC08
+G -- UC09
+G -- UC12
+G -- UC13
+G -- UC14
+G -- UC15
+G -- UC16
+
+' --- Vendedor ---
+V -- UC01
+V -- UC06
+V -- UC09
+V -- UC10
+V -- UC11
+
+' --- Sistema (actor secundario, procesos automaticos) ---
+S -- UC15
+S -- UC16
+
+@enduml

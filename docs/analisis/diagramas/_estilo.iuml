@@ -1,0 +1,20 @@
+' _estilo.iuml -- estilo comun de los diagramas de casos de uso
+skinparam shadowing false
+skinparam defaultFontName "DejaVu Sans"
+skinparam ArrowColor #34508A
+skinparam actorStyle awesome
+skinparam actor {
+  BorderColor #34508A
+  BackgroundColor #FBFCFE
+}
+skinparam usecase {
+  BorderColor #34508A
+  BackgroundColor #EAF0FA
+  ArrowColor #34508A
+}
+skinparam rectangle {
+  BorderColor #C5CEE0
+  FontColor #34508A
+  FontStyle bold
+}
+skinparam packageStyle rectangle

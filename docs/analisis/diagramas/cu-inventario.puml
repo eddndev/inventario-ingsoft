@@ -1,0 +1,46 @@
+@startuml cu-inventario
+' Modulo: Inventario
+!include _estilo.iuml
+title Casos de uso -- Inventario
+
+left to right direction
+
+actor "Gerente"  as G
+actor "Vendedor" as V
+actor "Sistema\n(modulo predictivo)" as S
+
+rectangle "Inventario" {
+  usecase "UC-07 Registrar recepcion\nde mercancia" as UC07
+  usecase "UC-08 Ajustar inventario"      as UC08
+  usecase "UC-09 Consultar inventario"    as UC09
+
+  usecase "Registrar movimiento\nde inventario" as MOV
+  usecase "Actualizar existencias"        as STK
+  usecase "Generar alerta\nde stock"            as ALE
+}
+
+G -- UC07
+G -- UC08
+G -- UC09
+V -- UC09
+
+UC07 ..> MOV : <<include>>
+UC07 ..> STK : <<include>>
+UC08 ..> MOV : <<include>>
+UC08 ..> STK : <<include>>
+STK  ..> ALE : <<extend>>
+S -- ALE
+
+note bottom of UC07
+  RF-005 / RF-011 / RN-006:
+  la recepcion incrementa el stock
+  y deja traza en el kardex.
+end note
+
+note bottom of ALE
+  RF-014 / RF-015 / RN-009:
+  si el stock cae por debajo del
+  minimo se genera una alerta.
+end note
+
+@enduml
